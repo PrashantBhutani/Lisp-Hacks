@@ -1,0 +1,7 @@
+(defun aux-list-len (user-list len)
+     (cond
+        ((null user-list) len)
+        (t (aux-list-len (rest user-list) (1+ len)))))
+
+(defun fast-list-length (user-list)
+     (aux-list-len user-list 0))

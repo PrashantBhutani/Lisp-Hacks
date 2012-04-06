@@ -1,0 +1,10 @@
+(defun apply-func-list (func-list other-list)
+     (if (null func-list)
+         other-list
+     (apply-func-list (butlast func-list) 
+		(funcall (first (last func-list)) other-list)))) ;; last returns a list not an object
+
+;(defun apply-func-list (func-list other-list)
+ ;    (if (null func-list)
+  ;       other-list
+   ;  (funcall (first func-list) (apply-func-list (rest func-list) other-list))))

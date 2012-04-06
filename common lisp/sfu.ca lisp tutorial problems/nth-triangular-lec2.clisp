@@ -1,0 +1,7 @@
+(defun fast-triangular (N sum)
+     (cond
+     ((zerop N) sum)
+     (t (fast-triangular (1- N) (+ sum N)))))
+
+(defun nth-triangular-number (N)
+      (fast-triangular N 0))

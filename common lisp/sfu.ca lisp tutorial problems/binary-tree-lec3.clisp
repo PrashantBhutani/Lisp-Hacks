@@ -1,0 +1,152 @@
+;;
+;; Binary Tree
+;;
+
+;; Constructors
+
+; Create a node in the binary tree
+(defun make-bin-tree-node (element left-tree right-tree)
+    (list element left-tree right-tree))
+    
+;; Selectors
+  
+; Get the element from the node in binary tree
+(defun bin-tree-node-element (tree)
+    (first tree))
+    
+; Get the left sub-tree of the given node in binary tree
+(defun bin-tree-node-left (tree)
+    (second tree))
+
+; Get the right sub-tree of the given node in binary tree
+(defun bin-tree-node-right (tree)
+    (third tree))
+    
+;; Recognizers
+
+; Is the node a leaf?
+(defun is-bin-tree-leaf (tree)
+   (and (listp tree) (eq (second tree) nil) (eq (third tree) nil)))
+
+(defun is-bin-tree-node (tree)
+   (and (listp tree) (not (and (eq (second tree) nil) (eq (third tree) nil)))))
+
+;; Member Retrieval
+
+; is the given element a member of the binary tree?
+(defun is-bin-tree-member (tree element)
+   (if (is-bin-tree-leaf tree)
+       (equal element (bin-tree-leaf-element tree))
+     (or (equal element (bin-tree-node-element tree))
+         (is-bin-tree-member (bin-tree-node-left  tree) element)
+         (is-bin-tree-member (bin-tree-node-right tree) element))))
+
+;; Get size (number of elements) of the binary tree
+
+(defun bin-tree-size (tree)
+   (if (is-bin-tree-leaf tree)
+        1
+     (+ 1 
+        (bin-tree-size (bin-tree-node-left  tree)) 
+        (bin-tree-size (bin-tree-node-right tree)))))
+
+;; Reverse the binary tree such that left and right sub-trees at each node are swapped
+
+(defun binary-tree-reverse (tree)
+    (if (is-bin-tree-leaf tree)
+        tree
+      (let ((element (bin-tree-node-element tree))
+            (left    (bin-tree-node-left    tree))
+            (right   (bin-tree-node-right   tree)))
+         (make-bin-tree-node element
+                             (binary-tree-reverse right)
+                             (binary-tree-reverse left)))))
+
+;; Pre-order traversal
+
+; Pre-order traversal by appending lists treated as tree's node
+
+(defun bin-tree-preorder (tree)
+    (if (is-bin-tree-leaf tree)
+        (list (bin-tree-node-element tree))
+      (let ((element (bin-tree-node-element tree))
+            (left    (bin-tree-node-left    tree))
+            (right   (bin-tree-node-right   tree)))
+        (cons element
+              (append (bin-tree-preorder left)
+                      (bin-tree-preorder right))))))
+
+; Fast Pre-order traversal using auxillary function
+
+(defun aux-preorder (tree aux-order)
+     (if (is-bin-tree-leaf tree)
+         (cons (bin-tree-node-element) aux-order)
+       (let ((root  (bin-tree-node-element tree))
+             (left  (bin-tree-node-left    tree))
+             (right (bin-tree-node-right   tree)))
+           (cons root 
+                 (aux-preorder left
+                               (aux-preorder right aux-order))))))
+
+(defun fast-bin-tree-preorder (tree)
+     (aux-preorder tree nil))
+
+;; Post-order traversal
+
+; Post-order traversal by appending lists treated as tree's node
+
+(defun bin-tree-postorder (tree)
+    (if (is-bin-tree-leaf tree)
+        (list (bin-tree-node-element tree))
+      (let ((element (bin-tree-node-element tree))
+            (left    (bin-tree-node-left    tree))
+            (right   (bin-tree-node-right   tree)))
+         (append (bin-tree-postorder left)
+                 (bin-tree-postorder right)
+                 (list element)))))
+
+; Fast Post-order traversal using auxillary function
+
+(defun aux-postorder (tree aux-order)
+    (if (is-bin-tree-leaf tree)
+        (cons (bin-tree-node-element tree) aux-order)
+      (let ((element (bin-tree-node-element tree))
+            (left    (bin-tree-node-left    tree))
+            (right   (bin-tree-node-right   tree)))
+         (aux-postorder left
+                        (aux-postorder right
+                                       (cons element aux-order))))))
+
+(defun fast-bin-tree-postorder (tree)
+    (aux-postorder tree nil))
+
+;; In-order traversal
+
+; In-order traversal by appending lists treated as tree's node
+
+(defun bin-tree-inorder (tree)
+    (if (is-bin-tree-leaf tree)
+        (list (bin-tree-node-element tree))
+      (let ((element (bin-tree-node-element tree))
+            (left    (bin-tree-node-left    tree))
+            (right   (bin-tree-node-right   tree)))
+         (append (bin-tree-inorder left)
+                 (cons element
+                       (bin-tree-inorder right)))))
+
+; Fast In-order traversal using auxillary function
+
+(defun aux-inorder (tree aux-order)
+    (if (is-bin-tree-leaf tree)
+        (cons (bin-tree-node-element tree) aux-order)
+      (let ((element (bin-tree-node-element tree))
+            (left    (bin-tree-node-left    tree))
+            (right   (bin-tree-node-right   tree)))
+         (aux-inorder left
+                      (cons element
+			    (aux-inorder right aux-order))))))
+
+(defun fast-bin-tree-inorder (tree)
+    (aux-inorder tree nil))
+
+;; Abstract Data Types

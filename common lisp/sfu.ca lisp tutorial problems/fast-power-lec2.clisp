@@ -1,0 +1,7 @@
+(defun aux-power (B E res)
+     (cond
+         ((zerop E) res)
+         (t (aux-power B (1- E) (* res B)))))
+
+(defun fast-power (B E)
+     (aux-power B E 1))

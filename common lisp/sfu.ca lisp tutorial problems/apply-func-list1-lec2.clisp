@@ -1,0 +1,7 @@
+(apply-func-list (list #'(lambda (x) (* 10 x)) #'fourth) '(10 20 30 40 50))
+
+(apply-func-list '(third second) '((1 2)(3 4 5)(6)))
+
+(apply-func-list (list #'(lambda (x) (- 10 x)) #'length) '(a b c d e f))
+
+(apply-func-list '(list list) 'blah)

@@ -1,0 +1,28 @@
+(defun return-non-empty-list (user-list)
+      "Find a non-empty list in a given list of lists"
+      (if (null user-list)
+           nil
+        (if (not (null (first user-list)))
+            (first user-list)
+          (return-non-empty-list (rest user-list)))))
+
+(defun user-find-if (predicate user-list)
+      "A generic function which return the first element which satisfies the predicate from the list"
+      (if (null user-list)
+          nil
+        (if (funcall predicate (first user-list))
+            (first user-list)
+          (find-if predicate (rest user-list)))))
+
+(defun find-length>=3 (user-list)
+       (user-find-if #'(lambda (x) (>= (length x) 3)) user-list))
+
+(defun find-even-length (user-list)
+       (user-find-if #'(lambda (x) (evenp (length x))) user-list))
+
+(defun find-divisible-by-3 (user-list)
+       (user-find-if #'(lambda (x) (zerop (rem x 3))) user-list))
+
+
+
+

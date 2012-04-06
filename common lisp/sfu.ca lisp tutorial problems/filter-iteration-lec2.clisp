@@ -1,0 +1,9 @@
+(defun user-remove-if (predicate user-list)
+      (if (null user-list)
+          nil
+         (if (funcall predicate (first user-list))
+             (user-remove-if predicate (rest user-list))
+           (cons (first user-list) (user-remove-if predicate (rest user-list))))))
+
+(defun user-list-diff (list1 list2)
+       (user-remove-if #'(lambda (x) (member x list2)) list1))

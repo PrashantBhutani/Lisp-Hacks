@@ -1,0 +1,10 @@
+(defun list-min-max-aux (user-list minimum maximum)
+      (if (null user-list)
+          (values minimum maximum)
+      (list-min-max-aux (rest user-list) 
+                 (min minimum (first user-list)) (max maximum (first user-list)))))
+
+(defun list-min-max (user-list)
+      (if (null user-list)
+          (values nil nil)
+      (list-min-max-aux (rest user-list) (first user-list) (first user-list))))
